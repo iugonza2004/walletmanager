@@ -185,7 +185,7 @@ export default defineComponent({
   }
 }
 
-.action-button ion-icon {
+.action-button {
   font-size: 30px;
   color: #ffffff;
 }

@@ -6,7 +6,7 @@ export class Transaction {
     private _type: TransactionType;
     private _amount: number;
     private _categoryId: string;
-    private _description?: string;
+    private _description: string;
     private _date: Date;
     private _isPositiveDebt: boolean;
     private _isNegativeDebt: boolean;
@@ -90,10 +90,10 @@ export class Transaction {
         amount: number,
         categoryId: string,
         date: Date,
-        description?: string,
         isPositiveDebt: boolean,
         isNegativeDebt: boolean,
         debtName: string,
+        description: string,
     ) {
         this._id = id;
         this._type = type;
@@ -103,5 +103,6 @@ export class Transaction {
         this._description = description;
         this._isPositiveDebt = isPositiveDebt;
         this._isNegativeDebt = isNegativeDebt;
+        this._debtName = debtName;
     }
 }
