@@ -18,14 +18,17 @@
 
       <!-- Botones de acción circulares -->
       <div class="actions-row">
-        <div class="action-button" @click="addTransaction">
+        <div class="action-button ion-activatable ripple-parent" @click="addTransaction">
           <ion-icon aria-hidden="true" :icon="icons.add" />
+          <ion-ripple-effect></ion-ripple-effect>
         </div>
-        <div class="action-button" @click="moveMoney">
+        <div class="action-button ion-activatable ripple-parent" @click="moveMoney">
           <ion-icon aria-hidden="true" :icon="icons.remove" />
+          <ion-ripple-effect></ion-ripple-effect>
         </div>
-        <div class="action-button" @click="showStats">
+        <div class="action-button ion-activatable ripple-parent" @click="showStats">
           <ion-icon aria-hidden="true" :icon="icons.shuffle" />
+          <ion-ripple-effect></ion-ripple-effect>
         </div>
       </div>
 
@@ -41,11 +44,28 @@
         </div>
       </div>
 
-      <!-- Transacciones recientes -->
+      <div class="categories">
+        <ion-item v-for="tx in recentTransactions" :key="tx.id" class="transaction-item" lines="none">
+          <ion-label class="categories-label">
+            <h3>Roba d'esport</h3>
+          </ion-label>
+          <ion-note slot="end" :color="tx.type === 'income' ? 'success' : 'danger'">
+            100€
+          </ion-note>
+        </ion-item>
+      </div>
+
+
+
       <div class="transactions-section">
         <h2>Transaccions recents</h2>
         <ion-list style="background: none">
-          <ion-item v-for="tx in recentTransactions" :key="tx.id" class="transaction-item" lines="none">
+          <ion-item
+              v-for="tx in recentTransactions.slice(0, 3)"
+              :key="tx.id"
+              class="transaction-item"
+              lines="none"
+          >
             <ion-label>
               <h3>{{ tx.description }}</h3>
               <p>{{ formatDate(tx.date) }} - {{ tx.category }}</p>
@@ -55,9 +75,19 @@
             </ion-note>
           </ion-item>
         </ion-list>
-        <ion-button fill="solid" expand="block" color="primary" @click="viewAllTransactions">
-          Veure totes
-        </ion-button>
+        <ion-item button :detail="false"
+            class="transaction-item"
+            lines="none"
+            style="text-align: center;"
+        >
+          <p style="margin: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                    text-align: center;">
+            Veure Totes</p>
+        </ion-item>
       </div>
 
     </ion-content>
@@ -110,7 +140,11 @@ export default defineComponent({
       recentTransactions: [
         { id: 1, type: "income", amount: 200, description: "Sou", date: new Date(), category: "Ingressos" },
         { id: 2, type: "expense", amount: 50, description: "Menjar", date: new Date(), category: "Despeses" },
-        { id: 3, type: "expense", amount: 30, description: "Transport", date: new Date(), category: "Despeses" },
+        { id: 4, type: "expense", amount: 30, description: "Transport", date: new Date(), category: "Despeses" },
+        { id: 5, type: "expense", amount: 30, description: "Transport", date: new Date(), category: "Despeses" },
+        { id: 6, type: "expense", amount: 30, description: "Transport", date: new Date(), category: "Despeses" },
+        { id: 7, type: "expense", amount: 30, description: "Transport", date: new Date(), category: "Despeses" },
+        { id: 8, type: "expense", amount: 30, description: "Transport", date: new Date(), category: "Despeses" },
       ]
     };
   },
@@ -166,6 +200,8 @@ export default defineComponent({
   background: rgba(85, 85, 85, 0.35);
   box-shadow: 0 0 10px 2px rgba(136,136,136,0.05);
   border-radius: 50%;
+  position: relative;
+  overflow: hidden;
 }
 
 .action-button-desc {
@@ -197,7 +233,6 @@ export default defineComponent({
   color: #ffffff;
 }
 
-/* Transacciones */
 .transactions-section h2 {
   font-weight: bold;
   margin-bottom: 10px;
@@ -207,6 +242,30 @@ export default defineComponent({
   margin-bottom: 8px;
   border-radius: 12px;
   box-shadow: 0px 0px 2px 1px rgb(35 35 35 / 20%)
+}
+
+.categories {
+  margin: 15px 0 10px 0;
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
+}
+
+.categories::-webkit-scrollbar {
+  display: none;
+}
+
+.categories .transaction-item {
+  flex: 0 0 auto;
+  min-width: 100px;
+  border-radius: 12px;
+  background: var(--ion-item-background, #1e1e1e);
+}
+
+.categories-label {
+  width: fit-content;
 }
 
 </style>
