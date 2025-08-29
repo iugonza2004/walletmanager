@@ -45,17 +45,15 @@
       </div>
 
       <div class="categories">
-        <ion-item v-for="tx in recentTransactions" :key="tx.id" class="transaction-item" lines="none">
+        <ion-item v-for="cat in categories" :key="cat.id" class="transaction-item" lines="none">
           <ion-label class="categories-label">
-            <h3>Roba d'esport</h3>
+            <h3>{{ cat.name }}</h3>
           </ion-label>
-          <ion-note slot="end" :color="tx.type === 'income' ? 'success' : 'danger'">
-            100€
+          <ion-note slot="end">
+            {{ cat.balance }}€
           </ion-note>
         </ion-item>
       </div>
-
-
 
       <div class="transactions-section">
         <h2>Transaccions recents</h2>
@@ -112,6 +110,8 @@ import {
 } from "@ionic/vue";
 
 import { getStore, setStore} from "@/store/Store";
+import {Category} from "@/models/Category";
+import {getCategories} from "@/services/CategoryService";
 
 export default defineComponent({
   name: "HomePage",
@@ -137,6 +137,7 @@ export default defineComponent({
         statsChart: statsChart
       },
       balance: 0,
+      categories: [] as Category[],
       recentTransactions: [
         { id: 1, type: "income", amount: 200, description: "Sou", date: new Date(), category: "Ingressos" },
         { id: 2, type: "expense", amount: 50, description: "Menjar", date: new Date(), category: "Despeses" },
@@ -148,8 +149,12 @@ export default defineComponent({
       ]
     };
   },
+  ionViewWillEnter() {
+    this.categories = getCategories();
+  },
   beforeMount() {
     this.balance = getStore('balance') || 0;
+    this.categories = getCategories();
   },
   methods: {
     addTransaction() { console.log("Afegir transacció"); },

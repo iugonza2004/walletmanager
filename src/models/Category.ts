@@ -5,10 +5,18 @@ export class Category {
     private _id: string;
     private _name: string;
     private _incomePercentage: number;
-    private _type: TransactionType;
+    private _balance: number;
 
     get id(): string {
         return this._id;
+    }
+
+    get balance(): number {
+        return this._balance;
+    }
+
+    set balance(value: number) {
+        this._balance = value;
     }
 
     set id(value: string) {
@@ -31,18 +39,11 @@ export class Category {
         this._incomePercentage = value;
     }
 
-    get type(): TransactionType {
-        return this._type;
-    }
 
-    set type(value: TransactionType) {
-        this._type = value;
-    }
-
-    constructor(id: string, name: string, incomePercentage: number, type: TransactionType) {
+    constructor(id: string, name: string, incomePercentage: number, balance: number) {
         this._id = id;
         this._name = name;
         this._incomePercentage = incomePercentage;
-        this._type = type;
+        this._balance = balance;
     }
 }
